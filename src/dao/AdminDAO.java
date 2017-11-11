@@ -4,46 +4,15 @@
  * and open the template in the editor.
  */
 package dao;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import entity.*;
-import java.sql.SQLException;
 import java.util.ArrayList;
 /**
  *
  * @author Yudho
  */
-public class ParkirDAO {
-   public static Connection CON;
-    public static final String url = "jdbc:ucanaccess://";
-    public static final String path = "X:\\dbAdmin.mdb";
-    
-    public void makeConnection(){
-        System.out.println("Opening Database .....");
-        
-        try{
-            CON = DriverManager.getConnection(url+path);
-            System.out.print("Success ..\n");
-        }
-        catch(SQLException e){
-            System.out.print("Error Opening Database ..");
-            System.out.println(e);
-        }
-    }
-    
-    public void closeConnection() {
-        System.out.println("Closing Database .....");
-        
-        try{
-            CON.close();
-            System.out.print("Success ..\n");
-        }catch(SQLException e){
-            System.out.print("Error Closing Database ..");
-            System.out.println(e);
-        }
-    }
+public class AdminDAO extends IDaoServer{
     public int MaxIDPetugas(){
         String sql = "SELECT MAX(IDPetugas) AS MPETUGAS FROM Petugas";
         ResultSet rs = null;
