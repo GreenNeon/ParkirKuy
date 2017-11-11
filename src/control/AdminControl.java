@@ -5,7 +5,7 @@
  */
 package control;
 
-import dao.ParkirDAO;
+import dao.AdminDAO;
 import entity.*;
 import java.util.ArrayList;
 
@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * @author Yudho
  */
 public class AdminControl {
-    ParkirDAO dao = new ParkirDAO();
+    AdminDAO dao = new AdminDAO();
     
     public int HitungPetugas(){
         dao.makeConnection();
@@ -50,5 +50,8 @@ public class AdminControl {
         Admin admin = dao.LoginPetugas(id, pin);
         dao.closeConnection();
         return admin;
+    }
+    public void HapusPetugas(Admin admin){
+        
     }
 }
