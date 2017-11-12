@@ -5,34 +5,37 @@
  */
 package entity;
 
+import java.util.Date;
+
 /**
  *
  * @author Yudho
  */
 public class Sepeda extends Kendaraan{
-    String id,noktp;
+    String id,noplat;
     double harga;
 
-    public Sepeda(String noktp, String jenis) {
+    public Sepeda(String noplat, int jenis) {
         super(jenis);
-        this.noktp = noktp;
-        this.harga = harga;
+        this.noplat = noplat;
+        this.harga = 1000;
+    }
+    public Sepeda(String noplat,int id, int jenis, Date waktu_masuk, Date waktu_keluar) {
+        super(id,jenis,waktu_masuk,waktu_keluar);
+        this.noplat = noplat;
+        this.harga = 1000;
     }
 
     public String getNoktp() {
-        return noktp;
+        return noplat;
     }
 
     public void setNoktp(String noktp) {
-        this.noktp = noktp;
+        this.noplat = noktp;
     }
 
     public double getHarga() {
         return harga;
-    }
-
-    public void setHarga(double harga) {
-        this.harga = harga;
     }
     
 }

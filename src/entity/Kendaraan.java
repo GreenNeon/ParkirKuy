@@ -14,26 +14,37 @@ import java.util.Date;
  * @author Yudho
  */
 public abstract class Kendaraan {
-    String id,jenis;
+    int id;
+    int jenis;
     Date waktu_masuk,waktu_keluar;
 
-    public Kendaraan(String jenis) {
+    public Kendaraan(int jenis) {
         this.jenis = jenis;
         this.waktu_masuk = Date.from(Instant.now());
+    }
+    public Kendaraan(int id,int jenis, Date waktu_masuk, Date waktu_keluar){
+        this.id = id;
+        this.jenis = jenis;
+        this.waktu_masuk = waktu_masuk;
+        this.waktu_keluar = waktu_keluar;
+    }
+    public Kendaraan(int jenis, Date waktu_masuk){
+        this.jenis = jenis;
+        this.waktu_masuk = waktu_masuk;
     }
     public int getTotalJam(){
         return 0;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public String getJenis() {
+    public int getJenis() {
         return jenis;
     }
 
-    public void setJenis(String jenis) {
+    public void setJenis(int jenis) {
         this.jenis = jenis;
     }
 
@@ -44,5 +55,7 @@ public abstract class Kendaraan {
     public void setWaktu_keluar(Date waktu_keluar) {
         this.waktu_keluar = waktu_keluar;
     }
-    
+    public Date getWaktu_Masuk(){
+        return waktu_masuk;
+    }
 }

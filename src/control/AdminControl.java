@@ -52,6 +52,8 @@ public class AdminControl {
         return admin;
     }
     public void HapusPetugas(Admin admin){
-        
+        dao.makeConnection();
+        dao.HapusAdmin(admin);
+        dao.closeConnection();
     }
 }

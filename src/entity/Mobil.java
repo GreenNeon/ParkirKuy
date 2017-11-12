@@ -5,6 +5,8 @@
  */
 package entity;
 
+import java.util.Date;
+
 /**
  *
  * @author Yudho
@@ -13,12 +15,16 @@ public class Mobil extends Kendaraan{
     String noplat;
     double harga;
 
-    public Mobil(String noplat, String jenis) {
+    public Mobil(String noplat, int jenis) {
         super(jenis);
         this.noplat = noplat;
         this.harga = 6000;
     }
-
+    public Mobil(String noplat,int id, int jenis, Date waktu_masuk, Date waktu_keluar) {
+        super(id,jenis,waktu_masuk,waktu_keluar);
+        this.noplat = noplat;
+        this.harga = 6000;
+    }
     public String getNoplat() {
         return noplat;
     }
@@ -31,7 +37,4 @@ public class Mobil extends Kendaraan{
         return harga;
     }
 
-    public void setHarga(double harga) {
-        this.harga = harga;
-    }
 }

@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package ui;
+import control.AdminControl;
 import entity.*;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -15,6 +16,7 @@ import javax.swing.ImageIcon;
  */
 public class PanelPetugas extends javax.swing.JPanel {
     private Admin admin;
+    private AdminControl ac;
     private int index;
     /**
      * Creates new form PanelPetugas
@@ -25,6 +27,8 @@ public class PanelPetugas extends javax.swing.JPanel {
         initComponents();
         this.admin = admin;
         this.index = index;
+        ac = new AdminControl();
+        
         if(index%2 != 0)
         {
             setBackground(new Color(19, 18, 18));
@@ -42,8 +46,8 @@ public class PanelPetugas extends javax.swing.JPanel {
             lblUser.setIcon(new ImageIcon(getClass().getResource("images/user_normal.png")));
         lblID.setText(String.format("USR-%03d", admin.getId()));
         lblNama.setText(admin.getNama().toUpperCase());
-        lblTime.setText(String.valueOf(admin.getTotal_waktu()));
-        lblKendaraan.setText(String.valueOf(admin.getTotal_kendaraan()));
+        lblTime.setText(String.format("Total %d Jam",admin.getTotal_waktu()));
+        lblKendaraan.setText(String.format("Total %d Kendaraan",admin.getTotal_kendaraan()));
     }
 
     private void setAllForeground(Color fg) {
@@ -71,6 +75,7 @@ public class PanelPetugas extends javax.swing.JPanel {
         lblID = new javax.swing.JLabel();
         lblTime = new javax.swing.JLabel();
         lblKendaraan = new javax.swing.JLabel();
+        btnHapus = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(51, 51, 51));
         setMaximumSize(new java.awt.Dimension(9999, 100));
@@ -101,15 +106,27 @@ public class PanelPetugas extends javax.swing.JPanel {
         lblUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui/images/user_normal.png"))); // NOI18N
 
         lblID.setForeground(new java.awt.Color(255, 255, 255));
-        lblID.setText("$ID Petugas");
+        lblID.setText("USR-000");
 
         lblTime.setForeground(new java.awt.Color(255, 255, 255));
         lblTime.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui/images/count_time.png"))); // NOI18N
-        lblTime.setText("$TIME");
+        lblTime.setText("Total 000 Jam ");
 
         lblKendaraan.setForeground(new java.awt.Color(255, 255, 255));
         lblKendaraan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui/images/count_park.png"))); // NOI18N
-        lblKendaraan.setText("$PARK");
+        lblKendaraan.setText("Total 000 Kendaraan");
+
+        btnHapus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui/images/btn_hapus.png"))); // NOI18N
+        btnHapus.setBorderPainted(false);
+        btnHapus.setContentAreaFilled(false);
+        btnHapus.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/ui/images/btn_hapus_rollover.png"))); // NOI18N
+        btnHapus.setRolloverSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/ui/images/btn_hapus_rollover.png"))); // NOI18N
+        btnHapus.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/ui/images/btn_hapus_rollover.png"))); // NOI18N
+        btnHapus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHapusActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -121,27 +138,35 @@ public class PanelPetugas extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblNama, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(34, 34, 34)
+                        .addComponent(btnHapus, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(lblID)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
                         .addComponent(lblTime, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblKendaraan, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(lblNama, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(94, 94, 94))
+                        .addComponent(lblKendaraan, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(53, 53, 53))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblNama)
+                        .addGap(21, 21, 21)
+                        .addComponent(lblUser))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblNama)
+                            .addComponent(btnHapus, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblID)
                             .addComponent(lblTime, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblKendaraan, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(lblUser))
+                            .addComponent(lblKendaraan, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(15, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -166,8 +191,11 @@ public class PanelPetugas extends javax.swing.JPanel {
         this.repaint();
     }//GEN-LAST:event_formMouseExited
 
+    
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
-        
+        this.removeAll();
+        this.repaint();
+        this.revalidate();
     }//GEN-LAST:event_formMouseClicked
 
     private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
@@ -182,8 +210,13 @@ public class PanelPetugas extends javax.swing.JPanel {
         this.repaint();
     }//GEN-LAST:event_formMouseReleased
 
+    private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
+        ac.HapusPetugas(admin);
+    }//GEN-LAST:event_btnHapusActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.JButton btnHapus;
     private javax.swing.JLabel lblID;
     private javax.swing.JLabel lblKendaraan;
     private javax.swing.JLabel lblNama;

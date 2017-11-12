@@ -5,14 +5,21 @@
  */
 package ui;
 
-import control.AdminControl;
+import control.*;
 import entity.*;
 import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import org.hsqldb.rights.Right;
 
 /**
  *
@@ -22,7 +29,10 @@ public class MainForm extends javax.swing.JFrame {
 
     private static int cPetugas = 0;
     private AdminControl ac;
+    private KendaraanControl kc;
+    
     private Admin adtemp;
+    private Kendaraan ktemp;
     private Admin AkunAktif;
     private String action = "";
     /**
@@ -31,7 +41,9 @@ public class MainForm extends javax.swing.JFrame {
     public MainForm() {
         initComponents();
         ac = new AdminControl();
+        kc = new KendaraanControl();
         ScrollView.getVerticalScrollBar().setUnitIncrement(16);
+        anilabel();
     }
     
     private void EnableEdit(boolean val){
@@ -125,6 +137,93 @@ public class MainForm extends javax.swing.JFrame {
         
         rdGroupKelamin.clearSelection();
     }
+    private void anilabel(){
+        Thread thread = new Thread(){
+          public void run(){
+              while(true){
+                    lblNoticeManager.setForeground(Color.GREEN);
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException ex) {
+
+                    }
+                    lblNoticeManager.setForeground(Color.YELLOW);
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException ex) {
+
+                    }
+              }
+          }  
+        };
+        thread.start();
+    }
+    
+    private void ShowAdmin(ArrayList<Admin> data,CardLayout card){
+        pnlBox.removeAll();
+        
+        lblManager.setText("MANAGER PETUGAS");
+        btnManagerTambah.setIcon(new ImageIcon(getClass().getResource("images/btn_tambah.png")));
+        btnManagerTambah.setSelectedIcon(new ImageIcon(getClass().getResource("images/btn_tambah_rollover.png")));
+        btnManagerTambah.setRolloverIcon(new ImageIcon(getClass().getResource("images/btn_tambah_rollover.png")));
+        
+        for(Admin item : data){
+            PanelPetugas pp = new PanelPetugas(item, ++cPetugas);
+            pp.addMouseListener(new MouseAdapter() { 
+                @Override
+                public void mousePressed(MouseEvent me) { 
+                  card.show(pnlMain, "cardTwoEdit");
+                    ChangeEdit(pp.getAdmin());
+                    adtemp = pp.getAdmin();
+                } 
+              });
+            pp.btnHapus.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    pnlBox.remove(pp);
+                    pnlBox.repaint();
+                    pnlBox.revalidate();
+                }
+            });
+            pnlBox.add(pp); 
+        }
+        pnlBox.repaint();
+        pnlBox.revalidate();
+    }
+    private void ShowKendaraan(ArrayList<Kendaraan> data,CardLayout card){
+        pnlBox.removeAll();
+        
+        lblManager.setText("MANAGER KENDARAAN");
+        btnManagerTambah.setIcon(new ImageIcon(getClass().getResource("images/btn_checkin.png")));
+        btnManagerTambah.setSelectedIcon(new ImageIcon(getClass().getResource("images/btn_checkin_rollover.png")));
+        btnManagerTambah.setRolloverIcon(new ImageIcon(getClass().getResource("images/btn_checkin_rollover.png")));
+        
+        for(Kendaraan item : data){
+            PanelKendaraan pk;
+            switch(item.getJenis()){
+                case 1:
+                    pk = new PanelKendaraan((Mobil) item);
+                    break;
+                case 2:
+                    pk = new PanelKendaraan((Motor) item);
+                    break;
+                default:
+                    pk = new PanelKendaraan((Sepeda) item);
+                    break;
+            }
+            
+            pk.addMouseListener(new MouseAdapter() { 
+                @Override
+                public void mousePressed(MouseEvent me) { 
+                  card.show(pnlMain, "cardTwoEdit");
+                } 
+              });
+            pnlBox.add(Box.createVerticalStrut(8));
+            pnlBox.add(pk); 
+        }
+        pnlBox.repaint();
+        pnlBox.revalidate();
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -160,7 +259,7 @@ public class MainForm extends javax.swing.JFrame {
         ScrollView = new javax.swing.JScrollPane();
         pnlBox = new javax.swing.JPanel();
         btnManagerTambah = new javax.swing.JButton();
-        jLabel17 = new javax.swing.JLabel();
+        lblNoticeManager = new javax.swing.JLabel();
         pnlCardTwoEdit = new javax.swing.JPanel();
         lblManagerNama = new javax.swing.JLabel();
         lblEditIDPetugas = new javax.swing.JLabel();
@@ -192,13 +291,20 @@ public class MainForm extends javax.swing.JFrame {
         lblManagerNama1 = new javax.swing.JLabel();
         pnlCardFour = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
-        txtLoginID = new javax.swing.JTextField();
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
         btnLoginAction = new javax.swing.JButton();
         jLabel18 = new javax.swing.JLabel();
         txtLoginPin = new javax.swing.JPasswordField();
+        txtLoginID = new javax.swing.JFormattedTextField();
+        pnlCardFive = new javax.swing.JPanel();
+        pnlBorder = new javax.swing.JPanel();
+        btnKendaraanCheckIn = new javax.swing.JButton();
+        btnKendaraanCheckOut = new javax.swing.JButton();
+        txtKendaraanSearch = new javax.swing.JTextField();
+        ScrollViewKendaraan = new javax.swing.JScrollPane();
+        pnlBoxKendaraan = new javax.swing.JPanel();
         pnlSidebar = new javax.swing.JPanel();
         lblLogo = new javax.swing.JLabel();
         btnLog = new javax.swing.JButton();
@@ -447,8 +553,8 @@ public class MainForm extends javax.swing.JFrame {
             }
         });
 
-        jLabel17.setForeground(new java.awt.Color(102, 102, 255));
-        jLabel17.setText("KLIK TABLE UNTUK MASUK KE DETAIL DAN EDIT");
+        lblNoticeManager.setForeground(new java.awt.Color(51, 255, 0));
+        lblNoticeManager.setText("KLIK TABLE UNTUK MASUK KE DETAIL DAN EDIT");
 
         javax.swing.GroupLayout pnlCardTwoLayout = new javax.swing.GroupLayout(pnlCardTwo);
         pnlCardTwo.setLayout(pnlCardTwoLayout);
@@ -458,21 +564,20 @@ public class MainForm extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(pnlCardTwoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlCardTwoLayout.createSequentialGroup()
-                        .addGroup(pnlCardTwoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(pnlCardTwoLayout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(jLabel17)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 239, Short.MAX_VALUE)
-                                .addComponent(txtManagerSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnManagerSearch))
-                            .addGroup(pnlCardTwoLayout.createSequentialGroup()
-                                .addComponent(btnManagerTambah, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(lblManager)))
+                        .addGap(10, 10, 10)
+                        .addComponent(lblNoticeManager)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 239, Short.MAX_VALUE)
+                        .addComponent(txtManagerSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnManagerSearch)
                         .addGap(19, 19, 19))
                     .addGroup(pnlCardTwoLayout.createSequentialGroup()
                         .addComponent(ScrollView)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlCardTwoLayout.createSequentialGroup()
+                        .addComponent(lblManager)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnManagerTambah, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())))
         );
         pnlCardTwoLayout.setVerticalGroup(
@@ -492,7 +597,7 @@ public class MainForm extends javax.swing.JFrame {
                     .addGroup(pnlCardTwoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnManagerSearch)
                         .addComponent(txtManagerSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel17))
+                    .addComponent(lblNoticeManager))
                 .addContainerGap())
         );
 
@@ -796,13 +901,6 @@ public class MainForm extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(51, 51, 51));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        txtLoginID.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtLoginID.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtLoginIDActionPerformed(evt);
-            }
-        });
-
         jLabel19.setForeground(new java.awt.Color(102, 255, 153));
         jLabel19.setText("ID Petugas");
 
@@ -824,6 +922,15 @@ public class MainForm extends javax.swing.JFrame {
 
         txtLoginPin.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
+        txtLoginID.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("USR-#000"))));
+        txtLoginID.setText("USR-");
+        txtLoginID.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtLoginID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtLoginIDActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -841,9 +948,9 @@ public class MainForm extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel19)
                         .addGap(40, 40, 40)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtLoginID, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtLoginPin, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtLoginPin, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
+                            .addComponent(txtLoginID))
                         .addContainerGap())))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(34, 34, 34)
@@ -861,10 +968,10 @@ public class MainForm extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(30, 30, 30)
                         .addComponent(jLabel21)))
-                .addGap(42, 42, 42)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtLoginID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel19))
+                .addGap(44, 44, 44)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel19)
+                    .addComponent(txtLoginID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel20)
@@ -886,12 +993,96 @@ public class MainForm extends javax.swing.JFrame {
         pnlCardFourLayout.setVerticalGroup(
             pnlCardFourLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlCardFourLayout.createSequentialGroup()
-                .addContainerGap(119, Short.MAX_VALUE)
+                .addContainerGap(117, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(111, 111, 111))
         );
 
         pnlMain.add(pnlCardFour, "cardFour");
+
+        pnlCardFive.setBackground(new java.awt.Color(51, 51, 51));
+
+        pnlBorder.setBackground(new java.awt.Color(20, 19, 19));
+
+        javax.swing.GroupLayout pnlBorderLayout = new javax.swing.GroupLayout(pnlBorder);
+        pnlBorder.setLayout(pnlBorderLayout);
+        pnlBorderLayout.setHorizontalGroup(
+            pnlBorderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        pnlBorderLayout.setVerticalGroup(
+            pnlBorderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 20, Short.MAX_VALUE)
+        );
+
+        btnKendaraanCheckIn.setBackground(new java.awt.Color(6, 17, 50));
+        btnKendaraanCheckIn.setForeground(new java.awt.Color(252, 252, 239));
+        btnKendaraanCheckIn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui/images/btn_tambah.png"))); // NOI18N
+        btnKendaraanCheckIn.setBorderPainted(false);
+        btnKendaraanCheckIn.setContentAreaFilled(false);
+        btnKendaraanCheckIn.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/ui/images/btn_tambah_rollover.png"))); // NOI18N
+        btnKendaraanCheckIn.setRolloverSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/ui/images/btn_tambah_rollover.png"))); // NOI18N
+        btnKendaraanCheckIn.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/ui/images/btn_tambah_rollover.png"))); // NOI18N
+        btnKendaraanCheckIn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnKendaraanCheckInActionPerformed(evt);
+            }
+        });
+
+        btnKendaraanCheckOut.setBackground(new java.awt.Color(6, 17, 50));
+        btnKendaraanCheckOut.setForeground(new java.awt.Color(252, 252, 239));
+        btnKendaraanCheckOut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui/images/btn_tambah.png"))); // NOI18N
+        btnKendaraanCheckOut.setBorderPainted(false);
+        btnKendaraanCheckOut.setContentAreaFilled(false);
+        btnKendaraanCheckOut.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/ui/images/btn_tambah_rollover.png"))); // NOI18N
+        btnKendaraanCheckOut.setRolloverSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/ui/images/btn_tambah_rollover.png"))); // NOI18N
+        btnKendaraanCheckOut.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/ui/images/btn_tambah_rollover.png"))); // NOI18N
+        btnKendaraanCheckOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnKendaraanCheckOutActionPerformed(evt);
+            }
+        });
+
+        txtKendaraanSearch.setBackground(new java.awt.Color(0, 0, 0));
+        txtKendaraanSearch.setForeground(new java.awt.Color(204, 255, 204));
+        txtKendaraanSearch.setText("Search Box");
+
+        ScrollViewKendaraan.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 0, 51)));
+
+        pnlBoxKendaraan.setBackground(new java.awt.Color(51, 51, 51));
+        pnlBoxKendaraan.setLayout(new javax.swing.BoxLayout(pnlBoxKendaraan, javax.swing.BoxLayout.Y_AXIS));
+        ScrollViewKendaraan.setViewportView(pnlBoxKendaraan);
+
+        javax.swing.GroupLayout pnlCardFiveLayout = new javax.swing.GroupLayout(pnlCardFive);
+        pnlCardFive.setLayout(pnlCardFiveLayout);
+        pnlCardFiveLayout.setHorizontalGroup(
+            pnlCardFiveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(pnlBorder, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(pnlCardFiveLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(txtKendaraanSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 357, Short.MAX_VALUE)
+                .addComponent(btnKendaraanCheckOut, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnKendaraanCheckIn, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addComponent(ScrollViewKendaraan)
+        );
+        pnlCardFiveLayout.setVerticalGroup(
+            pnlCardFiveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlCardFiveLayout.createSequentialGroup()
+                .addGap(55, 55, 55)
+                .addGroup(pnlCardFiveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(btnKendaraanCheckIn, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnKendaraanCheckOut, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtKendaraanSearch))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pnlBorder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(ScrollViewKendaraan, javax.swing.GroupLayout.DEFAULT_SIZE, 433, Short.MAX_VALUE))
+        );
+
+        pnlMain.add(pnlCardFive, "cardFive");
 
         pnlSidebar.setBackground(new java.awt.Color(245, 245, 245));
 
@@ -990,45 +1181,50 @@ public class MainForm extends javax.swing.JFrame {
 
     private void btnLaporanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLaporanActionPerformed
         CardLayout card = (CardLayout) pnlMain.getLayout();
-        card.show(pnlMain, "cardThree");
+        if(AkunAktif == null)
+            JOptionPane.showMessageDialog(this, "ANDA HARUS LOGIN TERLEBIH DAHULU","BELUM LOGIN",JOptionPane.ERROR_MESSAGE);
+        else
+            card.show(pnlMain, "cardThree");
     }//GEN-LAST:event_btnLaporanActionPerformed
 
     private void btnLogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogActionPerformed
-        CardLayout card = (CardLayout) pnlMain.getLayout();
-        card.show(pnlMain, "cardFour");
+        if(AkunAktif!=null)
+        {
+            btnLog.setIcon(new ImageIcon(getClass().getResource("images/btn_login.png")));
+            btnLog.setSelectedIcon(new ImageIcon(getClass().getResource("images/btn_login_rollover.png")));
+            btnLog.setRolloverIcon(new ImageIcon(getClass().getResource("images/btn_login_rollover.png")));
+            
+            lblLogo.setIcon(new ImageIcon(getClass().getResource("images/login.png")));
+            CardLayout card = (CardLayout) pnlMain.getLayout();
+            card.show(pnlMain, "cardOne");
+            AkunAktif = null;
+        }
+        else
+        {
+            CardLayout card = (CardLayout) pnlMain.getLayout();
+            card.show(pnlMain, "cardFour");
+        }
     }//GEN-LAST:event_btnLogActionPerformed
 
     private void btnManagerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManagerActionPerformed
         CardLayout card = (CardLayout) pnlMain.getLayout();
-        card.show(pnlMain, "cardTwo");
-        action = "";
-        cPetugas = 0;
-        ArrayList<Admin> data = ac.AmbilSemuaPetugas();
-        pnlBox.removeAll();
-        for(Admin item : data){
-            PanelPetugas pp = new PanelPetugas(item, ++cPetugas);
-            pp.addMouseListener(new MouseAdapter() { 
-                @Override
-                public void mousePressed(MouseEvent me) { 
-                  card.show(pnlMain, "cardTwoEdit");
-                    ChangeEdit(pp.getAdmin());
-                    adtemp = pp.getAdmin();
-                } 
-              }); 
-            pnlBox.add(pp);
-        }
         
-        pnlBox.revalidate();
-        pnlBox.repaint();
+        if(AkunAktif == null)
+            JOptionPane.showMessageDialog(this, "ANDA HARUS LOGIN TERLEBIH DAHULU","BELUM LOGIN",JOptionPane.ERROR_MESSAGE);
+        else if(AkunAktif.isTipeadmin()){
+            card.show(pnlMain, "cardTwo");
+            ShowAdmin(ac.AmbilSemuaPetugas(), card);
+        }
+        else{
+            card.show(pnlMain, "cardTwo");
+            ShowKendaraan(kc.AmbilSemuaKendaraan(), card);
+        }
     }//GEN-LAST:event_btnManagerActionPerformed
 
     private void btnManagerSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManagerSearchActionPerformed
-        ArrayList<Admin> data = ac.AmbilPetugasNama(txtManagerSearch.getText());
-        pnlBox.removeAll();
-        data.forEach((item)->{
-            pnlBox.add(new PanelPetugas(item,++cPetugas));
-        });
-
+        CardLayout card = (CardLayout) pnlMain.getLayout();
+        ShowAdmin(ac.AmbilPetugasNama(txtManagerSearch.getText()), card);
+        
         pnlBox.revalidate();
         pnlBox.repaint();
     }//GEN-LAST:event_btnManagerSearchActionPerformed
@@ -1093,20 +1289,41 @@ public class MainForm extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnManagerTambahActionPerformed
 
-    private void txtLoginIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLoginIDActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtLoginIDActionPerformed
-
     private void btnLoginActionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionActionPerformed
-        Admin logon = ac.LoginPetugas(Integer.parseInt(txtLoginID.getText()), String.valueOf(txtLoginPin.getPassword()));
+        Admin logon = ac.LoginPetugas(  Integer.parseInt(txtLoginID.getValue().toString()), String.valueOf(txtLoginPin.getPassword()));
         if(logon!=(null))
         {
             AkunAktif = logon;
             JOptionPane.showMessageDialog(this, "BERHASIL LOGIN !!!");
+            
+            btnLog.setIcon(new ImageIcon(getClass().getResource("images/btn_logout.png")));
+            btnLog.setSelectedIcon(new ImageIcon(getClass().getResource("images/btn_logout_rollover.png")));
+            btnLog.setRolloverIcon(new ImageIcon(getClass().getResource("images/btn_logout_rollover.png")));
+            
+            if(logon.isTipeadmin())
+                lblLogo.setIcon(new ImageIcon(getClass().getResource("images/login_admin.png")));
+            else
+                lblLogo.setIcon(new ImageIcon(getClass().getResource("images/login_petugas.png")));
         }
         else
             JOptionPane.showMessageDialog(this, "ID ATAU PIN SALAH !!!"); 
     }//GEN-LAST:event_btnLoginActionActionPerformed
+
+    private void txtLoginIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLoginIDActionPerformed
+        
+    }//GEN-LAST:event_txtLoginIDActionPerformed
+
+    private void btnKendaraanCheckInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKendaraanCheckInActionPerformed
+//        PanelKendaraan pp = new PanelKendaraan();
+//        pnlBoxKendaraan.add(pp);
+//        pnlBoxKendaraan.add(Box.createVerticalStrut(8));
+//        pnlBoxKendaraan.repaint();
+//        pnlBoxKendaraan.revalidate();
+    }//GEN-LAST:event_btnKendaraanCheckInActionPerformed
+
+    private void btnKendaraanCheckOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKendaraanCheckOutActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnKendaraanCheckOutActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1139,8 +1356,11 @@ public class MainForm extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane ScrollView;
+    private javax.swing.JScrollPane ScrollViewKendaraan;
     private javax.swing.JButton btnEditLihat;
     private javax.swing.JButton btnEditPetugas;
+    private javax.swing.JButton btnKendaraanCheckIn;
+    private javax.swing.JButton btnKendaraanCheckOut;
     private javax.swing.JButton btnLaporan;
     private javax.swing.JButton btnLog;
     private javax.swing.JButton btnLogin;
@@ -1159,7 +1379,6 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
@@ -1183,8 +1402,12 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JLabel lblManager;
     private javax.swing.JLabel lblManagerNama;
     private javax.swing.JLabel lblManagerNama1;
+    private javax.swing.JLabel lblNoticeManager;
     private javax.swing.JPanel pnlBar1;
+    private javax.swing.JPanel pnlBorder;
     private javax.swing.JPanel pnlBox;
+    private javax.swing.JPanel pnlBoxKendaraan;
+    private javax.swing.JPanel pnlCardFive;
     private javax.swing.JPanel pnlCardFour;
     private javax.swing.JPanel pnlCardOne;
     private javax.swing.JPanel pnlCardThree;
@@ -1203,8 +1426,9 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JPasswordField txtEditPassword;
     private javax.swing.JTextField txtEditTelepon;
     private javax.swing.JTextField txtEditUmur;
+    private javax.swing.JTextField txtKendaraanSearch;
     private javax.swing.JTextField txtLogid;
-    private javax.swing.JTextField txtLoginID;
+    private javax.swing.JFormattedTextField txtLoginID;
     private javax.swing.JPasswordField txtLoginPin;
     private javax.swing.JPasswordField txtLogpass;
     private javax.swing.JTextField txtManagerSearch;

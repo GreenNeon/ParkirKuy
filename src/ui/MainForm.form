@@ -426,25 +426,22 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="1" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
-                                      <Component id="jLabel17" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace pref="239" max="32767" attributes="0"/>
-                                      <Component id="txtManagerSearch" min="-2" pref="158" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="btnManagerSearch" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" attributes="0">
-                                      <Component id="btnManagerTambah" min="-2" pref="96" max="-2" attributes="0"/>
-                                      <EmptySpace max="32767" attributes="0"/>
-                                      <Component id="lblManager" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
+                              <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
+                              <Component id="lblNoticeManager" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace pref="239" max="32767" attributes="0"/>
+                              <Component id="txtManagerSearch" min="-2" pref="158" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="btnManagerSearch" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
                               <Component id="ScrollView" max="32767" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="lblManager" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="btnManagerTambah" min="-2" pref="96" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -472,7 +469,7 @@
                               <Component id="btnManagerSearch" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="txtManagerSearch" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="jLabel17" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblNoticeManager" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -569,10 +566,10 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnManagerTambahActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabel17">
+            <Component class="javax.swing.JLabel" name="lblNoticeManager">
               <Properties>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="ff" green="66" red="66" type="rgb"/>
+                  <Color blue="0" green="ff" red="33" type="rgb"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="KLIK TABLE UNTUK MASUK KE DETAIL DAN EDIT"/>
               </Properties>
@@ -1178,7 +1175,7 @@
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace pref="119" max="32767" attributes="0"/>
+                      <EmptySpace pref="117" max="32767" attributes="0"/>
                       <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="111" max="-2" attributes="0"/>
                   </Group>
@@ -1217,9 +1214,9 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="jLabel19" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="txtLoginID" min="-2" pref="178" max="-2" attributes="0"/>
-                                      <Component id="txtLoginPin" min="-2" pref="178" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="txtLoginPin" pref="178" max="32767" attributes="0"/>
+                                      <Component id="txtLoginID" max="32767" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                               </Group>
@@ -1245,10 +1242,10 @@
                                   <Component id="jLabel21" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="txtLoginID" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel19" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Component id="jLabel19" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtLoginID" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -1263,16 +1260,6 @@
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JTextField" name="txtLoginID">
-                  <Properties>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Segoe UI" size="14" style="0"/>
-                    </Property>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtLoginIDActionPerformed"/>
-                  </Events>
-                </Component>
                 <Component class="javax.swing.JLabel" name="jLabel19">
                   <Properties>
                     <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -1322,6 +1309,179 @@
                     </Property>
                   </Properties>
                 </Component>
+                <Component class="javax.swing.JFormattedTextField" name="txtLoginID">
+                  <Properties>
+                    <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
+                      <Format format="USR-#000" subtype="-1" type="0"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="USR-"/>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Segoe UI" size="14" style="0"/>
+                    </Property>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtLoginIDActionPerformed"/>
+                  </Events>
+                </Component>
+              </SubComponents>
+            </Container>
+          </SubComponents>
+        </Container>
+        <Container class="javax.swing.JPanel" name="pnlCardFive">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="33" green="33" red="33" type="rgb"/>
+            </Property>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
+              <CardConstraints cardName="cardFive"/>
+            </Constraint>
+          </Constraints>
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="pnlBorder" alignment="0" max="32767" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="txtKendaraanSearch" min="-2" pref="158" max="-2" attributes="0"/>
+                      <EmptySpace pref="357" max="32767" attributes="0"/>
+                      <Component id="btnKendaraanCheckOut" min="-2" pref="96" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="btnKendaraanCheckIn" min="-2" pref="96" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+                  <Component id="ScrollViewKendaraan" alignment="0" max="32767" attributes="0"/>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                          <Component id="btnKendaraanCheckIn" min="-2" pref="31" max="-2" attributes="0"/>
+                          <Component id="btnKendaraanCheckOut" min="-2" pref="31" max="-2" attributes="0"/>
+                          <Component id="txtKendaraanSearch" alignment="1" max="32767" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="pnlBorder" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="ScrollViewKendaraan" pref="433" max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+          <SubComponents>
+            <Container class="javax.swing.JPanel" name="pnlBorder">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="13" green="13" red="14" type="rgb"/>
+                </Property>
+              </Properties>
+
+              <Layout>
+                <DimensionLayout dim="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  </Group>
+                </DimensionLayout>
+                <DimensionLayout dim="1">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <EmptySpace min="0" pref="20" max="32767" attributes="0"/>
+                  </Group>
+                </DimensionLayout>
+              </Layout>
+            </Container>
+            <Component class="javax.swing.JButton" name="btnKendaraanCheckIn">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="32" green="11" red="6" type="rgb"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ef" green="fc" red="fc" type="rgb"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/ui/images/btn_tambah.png"/>
+                </Property>
+                <Property name="borderPainted" type="boolean" value="false"/>
+                <Property name="contentAreaFilled" type="boolean" value="false"/>
+                <Property name="rolloverIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/ui/images/btn_tambah_rollover.png"/>
+                </Property>
+                <Property name="rolloverSelectedIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/ui/images/btn_tambah_rollover.png"/>
+                </Property>
+                <Property name="selectedIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/ui/images/btn_tambah_rollover.png"/>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnKendaraanCheckInActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="btnKendaraanCheckOut">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="32" green="11" red="6" type="rgb"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ef" green="fc" red="fc" type="rgb"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/ui/images/btn_tambah.png"/>
+                </Property>
+                <Property name="borderPainted" type="boolean" value="false"/>
+                <Property name="contentAreaFilled" type="boolean" value="false"/>
+                <Property name="rolloverIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/ui/images/btn_tambah_rollover.png"/>
+                </Property>
+                <Property name="rolloverSelectedIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/ui/images/btn_tambah_rollover.png"/>
+                </Property>
+                <Property name="selectedIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/ui/images/btn_tambah_rollover.png"/>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnKendaraanCheckOutActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JTextField" name="txtKendaraanSearch">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="0" green="0" red="0" type="rgb"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="cc" green="ff" red="cc" type="rgb"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Search Box"/>
+              </Properties>
+            </Component>
+            <Container class="javax.swing.JScrollPane" name="ScrollViewKendaraan">
+              <Properties>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+                    <LineBorder>
+                      <Color PropertyName="color" blue="33" green="0" red="33" type="rgb"/>
+                    </LineBorder>
+                  </Border>
+                </Property>
+              </Properties>
+
+              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+              <SubComponents>
+                <Container class="javax.swing.JPanel" name="pnlBoxKendaraan">
+                  <Properties>
+                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="33" green="33" red="33" type="rgb"/>
+                    </Property>
+                  </Properties>
+
+                  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout">
+                    <Property name="axis" type="int" value="1"/>
+                  </Layout>
+                </Container>
               </SubComponents>
             </Container>
           </SubComponents>

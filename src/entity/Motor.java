@@ -5,6 +5,8 @@
  */
 package entity;
 
+import java.util.Date;
+
 /**
  *
  * @author Yudho
@@ -13,8 +15,13 @@ public class Motor extends Kendaraan{
     String noplat;
     double harga;
 
-    public Motor(String noplat, String jenis) {
+    public Motor(String noplat, int jenis) {
         super(jenis);
+        this.noplat = noplat;
+        this.harga = 4000;
+    }
+    public Motor(String noplat,int id, int jenis, Date waktu_masuk, Date waktu_keluar) {
+        super(id,jenis,waktu_masuk,waktu_keluar);
         this.noplat = noplat;
         this.harga = 4000;
     }
@@ -29,10 +36,6 @@ public class Motor extends Kendaraan{
 
     public double getHarga() {
         return harga;
-    }
-
-    public void setHarga(double harga) {
-        this.harga = harga;
     }
     
 }

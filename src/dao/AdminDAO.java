@@ -155,9 +155,7 @@ public class AdminDAO extends IDaoServer{
      public Admin LoginPetugas(int id,String pin){
         Admin admin = null;
         ResultSet rs = null;
-        String sql = "";
-        
-        sql = "SELECT * FROM Petugas WHERE IDPetugas Like '%"+id+"%' AND Pin Like '"+pin+"'";
+        String sql = "SELECT * FROM Petugas WHERE IDPetugas Like '%"+id+"%' AND Pin Like '"+pin+"'";
          
         System.out.println("LOGIN AKUN ..\n");
         
@@ -179,5 +177,20 @@ public class AdminDAO extends IDaoServer{
             System.out.println(e);
         }
         return admin;
+     }
+     public void HapusAdmin(Admin admin){
+        String sql = "DELETE FROM Petugas WHERE IDPetugas Like '"+admin.getId()+"'";
+         
+        System.out.println("DELETE AKUN ..\n");
+        
+        try{
+            Statement stat = CON.createStatement();
+            stat.executeUpdate(sql);
+            
+            stat.close();
+        }catch(Exception e){
+            System.out.println("Error DeletePetugas ...");
+            System.out.println(e);
+        }
      }
 }
