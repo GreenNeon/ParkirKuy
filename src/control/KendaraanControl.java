@@ -23,28 +23,39 @@ public class KendaraanControl {
         dao.closeConnection();
         return list;
     }
+    public ArrayList<Kendaraan> AmbilKendaraanJenis(int jenis){
+        dao.makeConnection();
+        ArrayList<Kendaraan> list = dao.AmbilKendaraanJenis(jenis);
+        dao.closeConnection();
+        return list;
+    }
     public ArrayList<Kendaraan> AmbilKendaraanPlat(String plat){
         dao.makeConnection();
         ArrayList<Kendaraan> list = dao.AmbilKendaraanPlat(plat);
         dao.closeConnection();
         return list;
     }
-    public void EditMobil(Mobil M){
+    public void TambahKendaraan(Kendaraan K,int idPetugas){
         dao.makeConnection();
-        dao.EditMobil(M);
+        switch(K.getJenis()){
+            case 1: dao.TambahMobil((Mobil) K,idPetugas);break;
+            case 2: dao.TambahMotor((Motor) K,idPetugas);break;
+            default: dao.TambahSepeda((Sepeda) K,idPetugas);break;
+        }
         dao.closeConnection();
     }
-    public void EditMotor(Motor M){
+    public void EditKendaraan(Kendaraan K){
         dao.makeConnection();
-        dao.EditMotor(M);
+        switch(K.getJenis()){
+            case 1: dao.EditMobil((Mobil) K);break;
+            case 2: dao.EditMotor((Motor) K);break;
+            default: dao.EditSepeda((Sepeda) K);break;
+        }
         dao.closeConnection();
     }
-    public void EditSepeda(Sepeda S){
+    public void SetIDLaporan(int idKendaraan,int idLaporan){
         dao.makeConnection();
-        dao.EditSepeda(S);
+        dao.SetIDLaporan(idKendaraan, idLaporan);
         dao.closeConnection();
-    }
-    public void HapusKendaraan(Date time){
-        
     }
 }

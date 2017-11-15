@@ -11,47 +11,54 @@ import java.awt.Color;
  * @author Yudho
  */
 public class PanelKendaraan extends javax.swing.JPanel {
-
+    private int index;
+    private Kendaraan K;
     /**
      * Creates new form PanelKendaraan
      */
-    public PanelKendaraan(Mobil K) {
+    public PanelKendaraan(Kendaraan K,int index) {
         initComponents();
+        this.K = K;
+        this.index = index;
         lblIDKendaraan.setText(String.format("%03d", K.getId()));
-        lblNoPlat.setText(K.getNoplat().toUpperCase());
-        lblJenis.setText("MOBIL");
+        switch(K.getJenis()){
+            case 1:
+                lblNoPlat.setText(((Mobil)K).getNoplat().toUpperCase());
+                lblJenis.setText("MOBIL");
+                pnlBand.setBackground(Color.ORANGE);
+                break;
+            case 2:
+                lblNoPlat.setText(((Motor)K).getNoplat().toUpperCase());
+                lblJenis.setText("MOTOR");
+                pnlBand.setBackground(Color.GREEN);
+                break;
+            default:
+                lblNoPlat.setText(((Sepeda)K).getNoktp().toUpperCase());
+                lblJenis.setText("SEPEDA");
+                pnlBand.setBackground(Color.cyan);
+                break;
+        }
+        
         lblMasuk.setText(K.getWaktu_Masuk().toString());
         if(K.getWaktu_keluar() != null)
+        {
             lblKeluar.setText(K.getWaktu_keluar().toString());
+            btnCheckout.setEnabled(false);
+        }
         else
             lblKeluar.setText("");
-        pnlBand.setBackground(Color.ORANGE);
-    }
-    public PanelKendaraan(Motor K) {
-        initComponents();
-        lblIDKendaraan.setText(String.format("%03d", K.getId()));
-        lblNoPlat.setText(K.getNoplat());
-        lblJenis.setText("MOTOR");
-        lblMasuk.setText(K.getWaktu_Masuk().toString());
-        if(K.getWaktu_keluar() != null)
-            lblKeluar.setText(K.getWaktu_keluar().toString());
+        if(index % 2 == 0){
+            setBackground(new Color(204,255,204));
+        }
+        else if(index % 3 == 0){
+            setBackground(new Color(204,204,255));
+        }
         else
-            lblKeluar.setText("");
-        pnlBand.setBackground(Color.YELLOW);
+            setBackground(new Color(255,255,204));
     }
-    public PanelKendaraan(Sepeda K) {
-        initComponents();
-        lblIDKendaraan.setText(String.format("%03d", K.getId()));
-        lblNoPlat.setText(K.getNoktp());
-        lblJenis.setText("SEPEDA");
-        lblMasuk.setText(K.getWaktu_Masuk().toString());
-        if(K.getWaktu_keluar() != null)
-            lblKeluar.setText(K.getWaktu_keluar().toString());
-        else
-            lblKeluar.setText("");
-        pnlBand.setBackground(Color.BLUE);
+    public Kendaraan GetKendaraan(){
+        return K;
     }
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -69,12 +76,21 @@ public class PanelKendaraan extends javax.swing.JPanel {
         btnCheckout = new javax.swing.JButton();
         lblIDKendaraan = new javax.swing.JLabel();
 
-        setBackground(new java.awt.Color(102, 102, 102));
+        setBackground(new java.awt.Color(255, 255, 204));
+        setToolTipText("Klik Untuk Masuk Ke Detail");
         setMaximumSize(new java.awt.Dimension(32767, 40));
         setMinimumSize(new java.awt.Dimension(717, 40));
         setPreferredSize(new java.awt.Dimension(717, 40));
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                formMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                formMouseExited(evt);
+            }
+        });
 
-        pnlBand.setBackground(new java.awt.Color(0, 51, 255));
+        pnlBand.setBackground(new java.awt.Color(0, 102, 102));
 
         javax.swing.GroupLayout pnlBandLayout = new javax.swing.GroupLayout(pnlBand);
         pnlBand.setLayout(pnlBandLayout);
@@ -88,18 +104,17 @@ public class PanelKendaraan extends javax.swing.JPanel {
         );
 
         lblNoPlat.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblNoPlat.setForeground(new java.awt.Color(255, 255, 0));
+        lblNoPlat.setForeground(new java.awt.Color(51, 51, 0));
         lblNoPlat.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblNoPlat.setText("AB 9067 RY");
         lblNoPlat.setToolTipText("No Indetifikasi Kendaraan");
 
         lblJenis.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblJenis.setForeground(new java.awt.Color(204, 255, 204));
+        lblJenis.setForeground(new java.awt.Color(51, 0, 0));
         lblJenis.setText("SEPEDA");
         lblJenis.setToolTipText("Jenis Kendaraan");
 
         lblMasuk.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblMasuk.setForeground(new java.awt.Color(0, 204, 51));
         lblMasuk.setText("04/09/2017");
         lblMasuk.setToolTipText("Waktu Masuk Kendaraan");
 
@@ -127,7 +142,7 @@ public class PanelKendaraan extends javax.swing.JPanel {
         });
 
         lblIDKendaraan.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblIDKendaraan.setForeground(new java.awt.Color(255, 255, 255));
+        lblIDKendaraan.setForeground(new java.awt.Color(102, 102, 102));
         lblIDKendaraan.setText("001");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -142,8 +157,8 @@ public class PanelKendaraan extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblNoPlat, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(lblJenis, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
+                .addComponent(lblJenis)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 98, Short.MAX_VALUE)
                 .addComponent(lblMasuk)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblKeluar)
@@ -176,6 +191,30 @@ public class PanelKendaraan extends javax.swing.JPanel {
     private void btnCheckoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckoutActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnCheckoutActionPerformed
+
+    private void formMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseEntered
+        setBackground(new Color(0,0,51));
+        lblMasuk.setForeground(new Color(255,255,255));
+        lblJenis.setForeground(new Color(204,0,51));
+        lblNoPlat.setForeground(new Color(153,153,0));
+        lblIDKendaraan.setForeground(new Color(204,204,255));
+    }//GEN-LAST:event_formMouseEntered
+
+    private void formMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseExited
+        if(index % 2 == 0){
+            setBackground(new Color(204,255,204));
+        }
+        else if(index % 3 == 0){
+            setBackground(new Color(204,204,255));
+        }
+        else
+            setBackground(new Color(255,255,204));
+        
+        lblMasuk.setForeground(new Color(0,0,0));
+        lblJenis.setForeground(new Color(51,0,51));
+        lblNoPlat.setForeground(new Color(51,51,0));
+        lblIDKendaraan.setForeground(new Color(102,102,102));
+    }//GEN-LAST:event_formMouseExited
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -58,25 +58,6 @@ public class DataModelAdmin extends AbstractTableModel{
     @Override
     public Class getColumnClass(int c) {
         return getValueAt(0, c).getClass();
-    }
-//    public Object getValueAt(int rowIndex, int columnIndex) {
-//        Admin admin = data.get(columnIndex).get(rowIndex);
-//        switch(columnIndex) {
-//          case 0: return admin.getId();
-//          case 1: return admin.getPin();
-//          case 2: return admin.isTipeadmin();
-//          case 3: return admin.getNoktp();
-//          case 4: return admin.getNama();
-//          case 5: return admin.getKelamin();
-//          case 6: return admin.getUmur();
-//          case 7: return admin.getTelepon();
-//          case 8: return admin.getAlamat();
-//          case 9: return admin.getTotal_kendaraan();
-//          case 10: return admin.getTotal_waktu();
-//          // to complete here...
-//          default: return null;
-//        }
-//    }
-   
+    }   
    
 }

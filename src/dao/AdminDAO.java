@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import entity.*;
 import java.util.ArrayList;
+import org.apache.commons.lang.BooleanUtils;
 /**
  *
  * @author Yudho
@@ -79,6 +80,35 @@ public class AdminDAO extends IDaoServer{
         }
          
         System.out.println("Mencari "+nama+" ATAU "+idpetugas+" Table Petugas ..\n");
+        
+        try{
+            Statement stat = CON.createStatement();
+            rs = stat.executeQuery(sql);
+            
+            while (rs.next()) {
+                InfoAdmin info = new InfoAdmin(rs.getString("Nama"), rs.getString("NoKTP"), rs.getString("Alamat"),rs.getString("Telepon"),
+                        Integer.parseInt(rs.getString("Kelamin")), Integer.parseInt(rs.getString("Umur")));
+                Admin admin = new Admin(Integer.parseInt(rs.getString("IDPetugas")),info,rs.getString("Pin"), Integer.parseInt(rs.getString("TotalWaktu")),
+                        Integer.parseInt(rs.getString("TotalKendaraan")),Boolean.parseBoolean(rs.getString("Admin")));
+
+                list.add(admin);
+            }
+            
+            rs.close();
+            stat.close();
+        }catch(Exception e){
+            System.out.println("Error AmbilPetugas ...");
+            System.out.println(e);
+        }
+        return list;
+    }
+    public ArrayList<Admin> AmbilPetugasJenis(boolean jenis){
+        ArrayList<Admin> list = new ArrayList<>();
+        ResultSet rs = null;
+        String sql = "SELECT * FROM Petugas WHERE Admin LIKE '"+String.valueOf(jenis).toUpperCase()+"'";
+        
+         
+        System.out.println("Mencari "+jenis+"   Table Petugas ..\n");
         
         try{
             Statement stat = CON.createStatement();

@@ -78,6 +78,41 @@ public class KendaraanDAO extends IDaoServer{
         }
         return list;
     }
+    public ArrayList<Kendaraan> AmbilKendaraanJenis(int jenis){
+        ArrayList<Kendaraan> list = new ArrayList<>();
+        ResultSet rs = null;
+        String sql = "SELECT * FROM Kendaraan WHERE Jenis LIKE '"+jenis+"'";
+        System.out.println("Mengambil Table Kendaraan ..\n");
+        
+        try{
+            Statement stat = CON.createStatement();
+            rs = stat.executeQuery(sql);
+            
+            while (rs.next()) {
+                Kendaraan K;
+                
+                switch (rs.getInt("Jenis")) {
+                    case 1:
+                        K = new Mobil(rs.getString("NoPlat"),rs.getInt("IDKendaraan"), rs.getInt("Jenis"),rs.getDate("Masuk"),rs.getDate("Keluar"));
+                        break;
+                    case 2:
+                        K = new Motor(rs.getString("NoPlat"),rs.getInt("IDKendaraan"), rs.getInt("Jenis"),rs.getDate("Masuk"),rs.getDate("Keluar"));
+                        break;
+                    default:
+                        K = new Sepeda(rs.getString("NoPlat"),rs.getInt("IDKendaraan"), rs.getInt("Jenis"),rs.getDate("Masuk"),rs.getDate("Keluar"));
+                        break;
+                }
+                list.add(K);
+            }
+            
+            rs.close();
+            stat.close();
+        }catch(Exception e){
+            System.out.println("Error AmbilKendaraan ...");
+            System.out.println(e);
+        }
+        return list;
+    }
     public ArrayList<Kendaraan> AmbilKendaraanPlat(String plat){
         ArrayList<Kendaraan> list = new ArrayList<>();
         ResultSet rs = null;
@@ -124,12 +159,47 @@ public class KendaraanDAO extends IDaoServer{
         }
         return list;
     }
+    public ArrayList<Kendaraan> AmbilKendaraanLaporan(int id){
+        ArrayList<Kendaraan> list = new ArrayList<>();
+        ResultSet rs = null;
+        String sql = "SELECT * FROM Kendaraan WHERE IDLaporan LIKE '"+id+"'";
+        System.out.println("Mengambil Table Kendaraan ..\n");
+        
+        try{
+            Statement stat = CON.createStatement();
+            rs = stat.executeQuery(sql);
+            
+            while (rs.next()) {
+                Kendaraan K;
+                
+                switch (rs.getInt("Jenis")) {
+                    case 1:
+                        K = new Mobil(rs.getString("NoPlat"),rs.getInt("IDKendaraan"), rs.getInt("Jenis"),rs.getDate("Masuk"),rs.getDate("Keluar"));
+                        break;
+                    case 2:
+                        K = new Motor(rs.getString("NoPlat"),rs.getInt("IDKendaraan"), rs.getInt("Jenis"),rs.getDate("Masuk"),rs.getDate("Keluar"));
+                        break;
+                    default:
+                        K = new Sepeda(rs.getString("NoPlat"),rs.getInt("IDKendaraan"), rs.getInt("Jenis"),rs.getDate("Masuk"),rs.getDate("Keluar"));
+                        break;
+                }
+                list.add(K);
+            }
+            
+            rs.close();
+            stat.close();
+        }catch(Exception e){
+            System.out.println("Error AmbilKendaraan ...");
+            System.out.println(e);
+        }
+        return list;
+    }
     public void EditMotor(Motor M){
-        String sql = "UPDATE Petugas SET Jenis = '"+M.getJenis()+
+        String sql = "UPDATE Kendaraan SET Jenis = '"+M.getJenis()+
                      "', NoPlat = '"+M.getNoplat()+
-                     "', Masuk = '"+M.getWaktu_keluar()+
-                     "', Keluar = '"+M.getWaktu_Masuk()+
-                     "' WHERE IDKendaraan = '"+M.getId()+"'";
+                     "', Masuk = #"+M.getWaktu_keluar()+
+                     "#, Keluar = #"+M.getWaktu_Masuk()+
+                     "# WHERE IDKendaraan = '"+M.getId()+"'";
         
         System.out.println("Editing Petugas FROM TABLE ..." + sql +"\n");
         
@@ -144,11 +214,12 @@ public class KendaraanDAO extends IDaoServer{
         } 
     }
     public void EditMobil(Mobil M){
-        String sql = "UPDATE Petugas SET Jenis = '"+M.getJenis()+
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/mm/yyyy");
+        String sql = "UPDATE Kendaraan SET Jenis = '"+M.getJenis()+
                      "', NoPlat = '"+M.getNoplat()+
-                     "', Masuk = '"+M.getWaktu_keluar()+
-                     "', Keluar = '"+M.getWaktu_Masuk()+
-                     "' WHERE IDKendaraan = '"+M.getId()+"'";
+                     "', Masuk = #"+sdf.format(M.getWaktu_keluar())+
+                     "#, Keluar = #"+sdf.format(M.getWaktu_Masuk())+
+                     "# WHERE IDKendaraan = '"+M.getId()+"'";
         
         System.out.println("Editing Petugas FROM TABLE ..." + sql +"\n");
         
@@ -163,11 +234,11 @@ public class KendaraanDAO extends IDaoServer{
         } 
     }
     public void EditSepeda(Sepeda M){
-        String sql = "UPDATE Petugas SET Jenis = '"+M.getJenis()+
+        String sql = "UPDATE Kendaraan SET Jenis = '"+M.getJenis()+
                      "', NoPlat = '"+M.getNoktp()+
-                     "', Masuk = '"+M.getWaktu_keluar()+
-                     "', Keluar = '"+M.getWaktu_Masuk()+
-                     "' WHERE IDKendaraan = '"+M.getId()+"'";
+                     "', Masuk = #"+M.getWaktu_keluar()+
+                     "#,Keluar = #"+M.getWaktu_Masuk()+
+                     "# WHERE IDKendaraan = '"+M.getId()+"'";
         
         System.out.println("Editing Petugas FROM TABLE ..." + sql +"\n");
         
@@ -181,12 +252,11 @@ public class KendaraanDAO extends IDaoServer{
             System.out.println(e);
         } 
     }
-     public void TambahKendaraan(Kendaraan K){
-        String sql = "INSERT INTO Petugas (Jenis,Masuk,Keluar) VALUES("+
-                     "'"+K.getJenis()+
-                     "','"+K.getWaktu_Masuk()+
-                     "','"+K.getWaktu_keluar()+
-                     "')";
+     public void TambahMobil(Mobil M,int idPetugas){
+        String sql = "INSERT INTO Kendaraan (Jenis,Masuk,NoPlat,IDPetugas) VALUES("+
+                     "'"+M.getJenis()+
+                     "',#"+M.getWaktu_Masuk()+
+                     "#,'"+M.getNoplat()+"','"+idPetugas+"')";
         
         System.out.println("Menambah Petugas Ke TABLE ..." + sql +"\n");
         
@@ -200,5 +270,57 @@ public class KendaraanDAO extends IDaoServer{
             System.out.println(e);
         } 
     }
-
+     public void TambahMotor(Motor M,int idPetugas){
+        String sql = "INSERT INTO Kendaraan (Jenis,Masuk,NoPlat,IDPetugas) VALUES("+
+                     "'"+M.getJenis()+
+                     "',#"+M.getWaktu_Masuk()+
+                     "#,'"+M.getNoplat()+"','"+idPetugas+"')";
+        
+        System.out.println("Menambah Petugas Ke TABLE ..." + sql +"\n");
+        
+        try{
+            Statement stat = CON.createStatement();
+            int result = stat.executeUpdate(sql);
+            System.out.println("Edit" + result + "Karyawan\n");
+            stat.close();
+        } catch(Exception e){
+            System.out.println("Error Menambah A Karyawan ...");
+            System.out.println(e);
+        } 
+    }
+     public void TambahSepeda(Sepeda M,int idPetugas){
+        String sql = "INSERT INTO Kendaraan (Jenis,Masuk,NoPlat,IDPetugas) VALUES("+
+                     "'"+M.getJenis()+
+                     "',#"+M.getWaktu_Masuk()+
+                     "#,'"+M.getNoktp()+"','"+idPetugas+"')";
+        
+        System.out.println("Menambah Petugas Ke TABLE ..." + sql +"\n");
+        
+        try{
+            Statement stat = CON.createStatement();
+            int result = stat.executeUpdate(sql);
+            System.out.println("Edit" + result + "Karyawan\n");
+            stat.close();
+        } catch(Exception e){
+            System.out.println("Error Menambah A Karyawan ...");
+            System.out.println(e);
+        } 
+    }
+     public void SetIDLaporan(int idKendaraan,int idLaporan){
+         String sql = "UPDATE Kendaraan SET IDLaporan = '"+idLaporan+
+                     "' WHERE IDKendaraan = '"+idKendaraan+"'";
+        
+        System.out.println("Editing Petugas FROM TABLE ..." + sql +"\n");
+        
+        try{
+            Statement stat = CON.createStatement();
+            int result = stat.executeUpdate(sql);
+            System.out.println("Edit" + result + "Mobil\n");
+            stat.close();
+        } catch(Exception e){
+            System.out.println("Error Editing A Mobil ...");
+            System.out.println(e);
+        
+         }
+     }
 }

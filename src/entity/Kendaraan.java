@@ -6,7 +6,7 @@
 package entity;
 
 import java.time.Instant;
-import java.util.Date;
+import java.sql.Date;
 
 
 /**
@@ -20,7 +20,8 @@ public abstract class Kendaraan {
 
     public Kendaraan(int jenis) {
         this.jenis = jenis;
-        this.waktu_masuk = Date.from(Instant.now());
+        java.util.Date dtNow = new java.util.Date();
+        this.waktu_masuk = new Date(dtNow.getTime());
     }
     public Kendaraan(int id,int jenis, Date waktu_masuk, Date waktu_keluar){
         this.id = id;

@@ -26,6 +26,12 @@ public class Admin extends InfoAdmin {
         this.total_waktu = total_waktu;
         this.total_kendaraan = total_kendaraan;
     }
+
+    public Admin() {
+        super(null, null, null, null, 0, 0);
+        tipeadmin = false;
+        this.id = 1;
+    }
     
     
 

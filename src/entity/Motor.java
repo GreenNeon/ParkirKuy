@@ -5,7 +5,8 @@
  */
 package entity;
 
-import java.util.Date;
+import java.sql.Date;
+import java.util.Calendar;
 
 /**
  *
@@ -33,7 +34,18 @@ public class Motor extends Kendaraan{
     public void setNoplat(String noplat) {
         this.noplat = noplat;
     }
-
+    public int getTotalHari(Date wk){
+        java.util.Calendar cal = java.util.Calendar.getInstance();
+        cal.setTime(wk);
+        int days;
+        days = cal.get(Calendar.DAY_OF_YEAR);
+        cal.setTime(waktu_masuk);
+        days = cal.get(Calendar.DAY_OF_YEAR)-days;
+        return days;
+    }
+    public double getTotalHarga(Date wk){
+        return harga + (5000*getTotalHari(wk));
+    }
     public double getHarga() {
         return harga;
     }

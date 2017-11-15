@@ -35,6 +35,12 @@ public class AdminControl {
         dao.closeConnection();
         return list;
     }
+    public ArrayList<Admin> AmbilPetugasJenis(boolean jenis){
+        dao.makeConnection();
+        ArrayList<Admin> list = dao.AmbilPetugasJenis(jenis);
+        dao.closeConnection();
+        return list;
+    }
     public void EditPetugas(Admin admin){
         dao.makeConnection();
         dao.EditPetugas(admin);
